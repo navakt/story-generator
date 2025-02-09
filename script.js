@@ -1,19 +1,40 @@
-// Arrays for story components
-const characters = ["a pirate", "a ninja", "a robot", "a wizard", "a dinosaur"];
-const actions = ["fought", "danced with", "ate", "built", "sang to"];
-const locations = ["on the moon", "in a volcano", "at the beach", "in a castle", "on a pirate ship"];
+const customName = document.getElementById('customname');
+const randomize = document.querySelector('.randomize');
+const story = document.querySelector('.story');
 
-// Function to generate a random story
-function generateStory() {
-    const randomCharacter = characters[Math.floor(Math.random() * characters.length)];
-    const randomAction = actions[Math.floor(Math.random() * actions.length)];
-    const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-
-    return `Once upon a time, ${randomCharacter} ${randomAction} ${randomLocation}.`;
+function randomValueFromArray(array){
+  const random = Math.floor(Math.random()*array.length);
+  return array[random];
 }
 
-// Event listener for the button
-document.getElementById('generateBtn').addEventListener('click', function() {
-    const story = generateStory();
-    document.getElementById('story').textContent = story;
-});
+const storyText = "It was 94 fahrenheit outside, so :insertx: went for a walk. When they got to :inserty:, they stared in horror for a few moments, then :insertz:. Bob saw the whole thing, but was not surprised — :insertx: weighs 300 pounds, and it was a hot day.";
+const insertX = ["Willy the Goblin", "Big Daddy", "Father Christmas"];
+const insertY = ["the soup kitchen", "Disneyland", "the White House"];
+const insertZ = ["spontaneously combusted", "melted into a puddle on the sidewalk", "turned into a slug and crawled away"];
+
+randomize.addEventListener('click', result);
+
+function result() {
+  let newStory = storyText;
+  let xItem = randomValueFromArray(insertX);
+  let yItem = randomValueFromArray(insertY);
+  let zItem = randomValueFromArray(insertZ);
+  newStory = newStory.replaceAll(":insertx:", xItem);
+  newStory = newStory.replaceAll(":inserty:", yItem);
+  newStory = newStory.replaceAll(":insertz:", zItem);
+  if(customName.value !== '') {
+    const name = customName.value;  
+    newStory = newStory.replaceAll("Bob", name);
+  }
+
+  if(document.getElementById("uk").checked) {
+    const weight = Math.round(300*0.0714286) + " stones";
+    const temperature =  Math.round(34.4444) + " centigrade";
+    newStory = newStory.replaceAll("94 fahrenheit", temperature);
+    newStory = newStory.replaceAll("300 pounds", weight);
+
+  }
+
+  story.textContent = newStory;
+  story.style.visibility = 'visible';
+}
